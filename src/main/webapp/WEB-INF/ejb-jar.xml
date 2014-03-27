@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ejb-jar xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+                            http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd"
+	version="3.1">
+
+	<description>ejb31-jndi-resource-manager-in-postconstruct-example</description>
+	<display-name>ejb31-jndi-resource-manager-in-postconstruct-example</display-name>
+
+	<enterprise-beans>
+
+		<session>
+			
+			<ejb-name>ResourceDependencyFinderBean</ejb-name>
+			<ejb-class>com.andreiribas.ejb.ResourceDependencyFinderBean</ejb-class>
+			<env-entry>
+				<env-entry-name>ejb-jndi-name</env-entry-name>
+				<env-entry-type>java.lang.String</env-entry-type>
+				<env-entry-value>java:global/myapp/ejb/ResourceDependencyFinderV2</env-entry-value>
+			</env-entry>
+			
+		</session>
+
+	</enterprise-beans>
+
+</ejb-jar>
