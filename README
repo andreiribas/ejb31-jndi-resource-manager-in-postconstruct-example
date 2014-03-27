@@ -1,16 +1,20 @@
-This application is an example of question enthuware.oce-ejbd.v6.2.411, from enthuware's for Oracle Certified Expert - Enterprise JavaBeans Developer 6 exam simulator:
+ejb31-jndi-resource-manager-in-postconstruct-example
+====================================================
+
+This application is an example of question enthuware.oce-ejbd.v6.2.582 :, from enthuware's for Oracle Certified Expert - Enterprise JavaBeans Developer 6 exam simulator:
 
 http://enthuware.com/index.php/mock-exams/oracle-certified-expert/oceejbd-ejb-6
 
-I posted a question on 
+In Enthuware's anwer to this question, it said that A stateless session bean cannot access resource managers in @PostConstruct or @PreDestroy methods.
 
-http://enthuware.com/forum/viewtopic.php?f=4&t=2450
+I created an example trying to do that, and it worked.
 
-and they answered me, so I decided to create an example of the question.
+In this project, there is a singleton, Main. It gets a reference of ResourceDependencyFinderBean class, which is a stateless session bean.
+In this class @PostConstruct method, it uses JNDI to get a reference to the ResourceDependencyFinderBeanV2, which is another stateless session bean.
 
-This is the example where another bean calls a business method in another stateless session bean.
-Then this business method calls an asynchronous method in the same object.
-This is the question exactly, the code will execute synchronously because the async call will not be managed by the container, it's a simple direct method call.
+According to Enthuware's answer, this should not work, but it does.
+
+--
 
 To install in Eclipse, just run
 
