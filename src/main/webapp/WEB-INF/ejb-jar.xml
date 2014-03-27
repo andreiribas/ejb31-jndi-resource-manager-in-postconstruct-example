@@ -37,6 +37,17 @@ THE SOFTWARE.
 			
 			<ejb-name>ResourceDependencyLocatorBean</ejb-name>
 			<ejb-class>com.andreiribas.ejb.ResourceDependencyLocatorBean</ejb-class>
+			
+			<!-- 
+				This env-entry is used to replace the default jndi name.
+				The default entry value hardcoded in the class is used for unit testing.
+				If we use that jndi name in the embedded glassfish deploy, 
+				it will not be found and an exception will be thrown.
+				So we have to replace the default value by the correct jndi name
+				that the bean will have on deploy.
+				It's also a great use of the @Resource annotation with 
+				overriden env-entry. 
+			 -->
 			<env-entry>
 				<env-entry-name>ejb-jndi-name</env-entry-name>
 				<env-entry-type>java.lang.String</env-entry-type>
