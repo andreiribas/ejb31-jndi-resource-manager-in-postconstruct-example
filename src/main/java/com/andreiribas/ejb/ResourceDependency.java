@@ -27,34 +27,15 @@ THE SOFTWARE.
  */
 package com.andreiribas.ejb;
 
-import javax.annotation.PostConstruct;
-import javax.ejb.Stateless;
-
-import org.apache.log4j.Logger;
+import javax.ejb.Local;
 
 /**
  * @author Andrei Gonçalves Ribas <andrei.g.ribas@gmail.com>
- * 
+ *
  */
-@Stateless(name="ejb/ResourceDependencyFinderV2")
-public class ResourceDependencyFinderBeanV2 implements ResourceDependencyFinderV2 {
+@Local
+public interface ResourceDependency {
 
-	static final String DEFAULT_MESSAGE = "ResourceDependencyFinderV2 instance successfully created!";
+	public String getMessage();
 	
-	private Logger LOGGER;
-	
-	@PostConstruct
-	public void setUp() {
-		
-		this.LOGGER = Logger.getLogger(ResourceDependencyFinderBeanV2.class);
-		
-		LOGGER.debug(DEFAULT_MESSAGE);
-		
-	}
-
-	@Override
-	public String getMessage() {
-		return DEFAULT_MESSAGE;
-	}
-
 }

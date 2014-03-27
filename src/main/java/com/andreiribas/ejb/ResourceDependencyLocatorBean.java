@@ -27,17 +27,54 @@ THE SOFTWARE.
  */
 package com.andreiribas.ejb;
 
-import javax.ejb.Local;
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import javax.ejb.EJBException;
+import javax.ejb.Stateless;
+import javax.naming.InitialContext;
 
-
+import org.apache.log4j.Logger;
 
 /**
  * @author Andrei Gonçalves Ribas <andrei.g.ribas@gmail.com>
- *
+ * 
  */
-@Local
-public interface ResourceDependencyFinder {
+@Stateless
+public class ResourceDependencyLocatorBean implements ResourceDependencyLocator {
 
-	public ResourceDependencyFinderV2 getResource();
+	private static final String DEFAULT_DEPENDENCY_JNDI_NAME = "java:global/myapp/classes/ejb/ResourceDependency";
 	
+	private static final String ENV_ENTRY_NAME = "ejb-jndi-name";
+	
+	private Logger LOGGER;
+	
+	private ResourceDependency resourceDependencyInstance;
+	
+	@Resource(name = ENV_ENTRY_NAME)
+	private String ejbJndiName = DEFAULT_DEPENDENCY_JNDI_NAME;
+	
+	@PostConstruct
+	public void setUp() {
+		
+		this.LOGGER = Logger.getLogger(ResourceDependencyLocatorBean.class);
+	
+		try {
+			
+			InitialContext ctx = new InitialContext();
+			
+			LOGGER.debug(String.format("ejbJndiName is %s.", ejbJndiName));
+			
+			this.resourceDependencyInstance = (ResourceDependency) ctx.lookup(ejbJndiName);
+					
+		} catch(Exception e) {
+			throw new EJBException(e.getMessage());
+		}
+		
+	}
+
+	@Override
+	public ResourceDependency locate() {
+		return resourceDependencyInstance;
+	}
+
 }

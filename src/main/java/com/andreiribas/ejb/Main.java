@@ -45,14 +45,14 @@ public class Main {
 	private Logger LOGGER;
 	
 	@EJB
-	private ResourceDependencyFinder resourceDependencyFinder;
+	private ResourceDependencyLocator resourceDependencyLocator;
 	
 	@PostConstruct
 	public void start() {
 		
 		this.LOGGER = Logger.getLogger(Main.class);
 	
-		LOGGER.debug(String.format("Resource message is: %s.", resourceDependencyFinder.getResource().getMessage()));
+		LOGGER.debug(String.format("Resource Dependency message is: %s.", resourceDependencyLocator.locate().getMessage()));
 				
 	}
 	

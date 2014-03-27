@@ -47,7 +47,7 @@ import org.junit.Test;
  * @author Andrei Gonçalves Ribas <andrei.g.ribas@gmail.com>
  * 
  */
-public class ResourceDependencyFinderTest {
+public class ResourceDependencyLocatorTest {
 
 	private static Logger LOGGER;
 
@@ -55,12 +55,12 @@ public class ResourceDependencyFinderTest {
 
 	private static Context ctx;
 	
-	private ResourceDependencyFinder resourceDependencyFinder;
+	private ResourceDependencyLocator resourceDependencyLocator;
 	
 	@BeforeClass
 	public static void setUpClass() {
 
-		LOGGER = Logger.getLogger(ResourceDependencyFinderTest.class);
+		LOGGER = Logger.getLogger(ResourceDependencyLocatorTest.class);
 
 		Map<String, Object> properties = new HashMap<String, Object>();
 		
@@ -76,8 +76,8 @@ public class ResourceDependencyFinderTest {
 	
 	@Before
 	public void setUp() throws NamingException {
-		this.resourceDependencyFinder = (ResourceDependencyFinder) ctx
-				.lookup("java:global/myapp/classes/ResourceDependencyFinderBean");
+		this.resourceDependencyLocator = (ResourceDependencyLocator) ctx
+				.lookup("java:global/myapp/classes/ResourceDependencyLocatorBean");
 	}
 
 	@AfterClass
@@ -88,13 +88,15 @@ public class ResourceDependencyFinderTest {
 	@Test
 	public void testGetResource() {
 
-		TestCase.assertNotNull(resourceDependencyFinder);
+		TestCase.assertNotNull(resourceDependencyLocator);
 
-		TestCase.assertNotNull(resourceDependencyFinder.getResource());
+		TestCase.assertNotNull(resourceDependencyLocator.locate());
 		
-		TestCase.assertEquals(ResourceDependencyFinderBeanV2.DEFAULT_MESSAGE, resourceDependencyFinder.getResource().getMessage());
+		String dependencyMessage = resourceDependencyLocator.locate().getMessage();
 		
-		LOGGER.debug(String.format("Resource message is: %s.", resourceDependencyFinder.getResource().getMessage()));
+		TestCase.assertEquals(ResourceDependencyBean.DEFAULT_MESSAGE, dependencyMessage);
+		
+		LOGGER.debug(String.format("Resource Dependency message is: %s.", dependencyMessage));
 		
 	}
 	

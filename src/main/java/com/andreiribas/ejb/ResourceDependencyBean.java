@@ -28,10 +28,7 @@ THE SOFTWARE.
 package com.andreiribas.ejb;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.ejb.EJBException;
 import javax.ejb.Stateless;
-import javax.naming.InitialContext;
 
 import org.apache.log4j.Logger;
 
@@ -39,38 +36,25 @@ import org.apache.log4j.Logger;
  * @author Andrei Gonçalves Ribas <andrei.g.ribas@gmail.com>
  * 
  */
-@Stateless
-public class ResourceDependencyFinderBean implements ResourceDependencyFinder {
+@Stateless(name="ejb/ResourceDependency")
+public class ResourceDependencyBean implements ResourceDependency {
 
+	static final String DEFAULT_MESSAGE = "ResourceDependencyBean instance successfully created!";
+	
 	private Logger LOGGER;
-	
-	private ResourceDependencyFinderV2 v2Instance;
-	
-	@Resource(name = "ejb-jndi-name")
-	private String ejbJndiName = "java:global/myapp/classes/ejb/ResourceDependencyFinderV2";
 	
 	@PostConstruct
 	public void setUp() {
 		
-		this.LOGGER = Logger.getLogger(ResourceDependencyFinderBean.class);
-	
-		try {
-			
-			InitialContext ctx = new InitialContext();
-			
-			LOGGER.debug(String.format("ejbJndiName is %s.", ejbJndiName));
-			
-			this.v2Instance = (ResourceDependencyFinderV2) ctx.lookup(ejbJndiName);
-					
-		} catch(Exception e) {
-			throw new EJBException(e.getMessage());
-		}
+		this.LOGGER = Logger.getLogger(ResourceDependencyBean.class);
+		
+		LOGGER.debug(DEFAULT_MESSAGE);
 		
 	}
 
 	@Override
-	public ResourceDependencyFinderV2 getResource() {
-		return v2Instance;
+	public String getMessage() {
+		return DEFAULT_MESSAGE;
 	}
 
 }

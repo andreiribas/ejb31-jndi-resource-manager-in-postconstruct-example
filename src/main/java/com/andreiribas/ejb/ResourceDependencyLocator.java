@@ -29,13 +29,15 @@ package com.andreiribas.ejb;
 
 import javax.ejb.Local;
 
+
+
 /**
  * @author Andrei Gonçalves Ribas <andrei.g.ribas@gmail.com>
  *
  */
 @Local
-public interface ResourceDependencyFinderV2 {
+public interface ResourceDependencyLocator {
 
-	public String getMessage();
+	public ResourceDependency locate();
 	
 }
