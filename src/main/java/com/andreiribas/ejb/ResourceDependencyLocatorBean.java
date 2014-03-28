@@ -28,6 +28,7 @@ THE SOFTWARE.
 package com.andreiribas.ejb;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
@@ -65,6 +66,21 @@ public class ResourceDependencyLocatorBean implements ResourceDependencyLocator 
 			LOGGER.debug(String.format("ejbJndiName is %s.", ejbJndiName));
 			
 			this.resourceDependencyInstance = (ResourceDependency) ctx.lookup(ejbJndiName);
+					
+		} catch(Exception e) {
+			throw new EJBException(e.getMessage());
+		}
+		
+	}
+	
+	@PreDestroy
+	public void tearDown() {
+		
+		try {
+			
+			InitialContext ctx = new InitialContext();
+			
+			LOGGER.debug(String.format("Looking up ResourceDependency instance again before destroying this bean. The Dependency Message returned is: %s.", ((ResourceDependency) ctx.lookup(ejbJndiName)).getMessage()));
 					
 		} catch(Exception e) {
 			throw new EJBException(e.getMessage());
